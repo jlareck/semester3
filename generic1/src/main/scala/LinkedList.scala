@@ -1,11 +1,10 @@
 
-//package scala
 import scala.annotation.tailrec
 import scala.annotation.unchecked.uncheckedVariance
 import scala.collection.immutable.List
 import scala.math.Ordering
 import scala.runtime.Statics.releaseFence
-
+import scala.sys.process.processInternal
 
 
 sealed abstract class LinkedList[+E] {
@@ -66,7 +65,7 @@ sealed abstract class LinkedList[+E] {
     reverse().foldLeft(accumulator)((acc, item) => f(item, acc))
   }
 
-  def filter(f: (E) => Boolean): LinkedList[E] = {
+  def filter(f: E => Boolean): LinkedList[E] = {
     foldRight(LinkedList[E]()) {
       (item, acc) =>
         if (f(item)) {
@@ -111,14 +110,14 @@ case object Empty extends LinkedList[Nothing]{
   override def tail: LinkedList[Nothing] = throw new UnsupportedOperationException("tail of empty list")
 }
 
-final case class :: [E]( private var hd: E, private var tl: LinkedList[E]) extends LinkedList[E] {
-  releaseFence()
-
-  override def size = 1
-
-  override def head : E = hd
-  override def tail : LinkedList[E] = tl
-}
+//final case class :: [E]( private var hd: E, private var tl: LinkedList[E]) extends LinkedList[E] {
+//  releaseFence()
+//
+//  override def size = 1
+//
+//  override def head : E = hd
+//  override def tail : LinkedList[E] = tl
+//}
 
 
 
@@ -168,17 +167,39 @@ object LinkedList extends App{
 //    }
 //    _split(n, List(), l)
 //  }
-def msort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
-  def merge(xs1: LinkedList[E], xs2: LinkedList[E]): LinkedList[E] =
-  if (xs1.size == 0) xs2
-  else if (xs2.size == 0) xs1
-  else if (org.compare(xs1.head, xs2.head)<0) xs1.head :: merge(xs1.tail, xs2)
-  else xs2.head :: merge(xs1, xs2.tail)
+def mergeSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
+   def merge(xs1: LinkedList[E], xs2: LinkedList[E]): LinkedList[E] = {
+     if (xs1.size == 0) xs2
+     else if (xs2.size == 0) xs1
+     else if (org.compare(xs1.head, xs2.head)<0) xs1.head :: merge(xs1.tail, xs2)
+     else xs2.head :: merge(xs1, xs2.tail)
+   }
+
   val n = xs.size/2
   if (n == 0) xs
-  else merge(msort(xs take n), msort(xs drop n))
+  else merge(mergeSort(xs take n), mergeSort(xs drop n))
 }
-//  def split[E](n: Int, l: LinkedList[E]):(LinkedList[E], LinkedList[E]) = {
+  def insertionSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
+    if(xs.size == 0) LinkedList()
+    else  insert(xs.head, insertionSort(xs.tail))(org)
+  }
+
+  def insert[E](x: E, xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] =  {
+    if(xs.size==0)  LinkedList(x)
+  else{
+      if (org.compare(x, xs.head)<0 ) x :: xs else xs.head :: insert(x, xs.tail)
+    }
+  }
+
+  def quickSort[E](list: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
+
+      if (list.size==0)  Empty
+      else if (list.size == 1)  LinkedList(list.head)
+      else  quickSort(list.tail.filter(x=> org.compare(x, list.head)<=0 )) ::: LinkedList(list.head) ::: quickSort(list.tail.filter(x => org.compare(x, list.head)>0))
+
+  }
+
+  //  def split[E](n: Int, l: LinkedList[E]):(LinkedList[E], LinkedList[E]) = {
 //    def _split[E](c: Int, res: LinkedList[E], rem: LinkedList[E]):(LinkedList[E],LinkedList[E]) = (c, rem) match {
 //      case (_, Empty) => (res, Empty)
 //      case (0, rem) => (res, rem)
@@ -203,12 +224,26 @@ def msort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
 //      merge(mergeSort(left), mergeSort(right))
 //    }
 //  }
-  var a = LinkedList(3,25,5)
+//  var a = new FileClass("aa", 1, "ww")
+//  va b = LinkedList(a)
+//   val c = new FileClass("bb", 2, "qq")
+//  b = b.::c
+  var a = LinkedList(3,25,5,8,0,-1,8)
   a = a.::(2)
- //print(a.head1)
-  //a.someTest
-  var b = List(2,4,5)
-  //print(a)
- print(msort(a))
+// //print(a.head1)
+//  //a.someTest
+//  var b = List(2,4,5)
+//  //print(a)
+// print(mergeSort(a))
+
+//  val a = new FileClass("aa", 2, "ww")
+//  val c = new FileClass("bb", 3, "qq")
+//  var b = LinkedList(a,c)
+//
+//  b = b.::(new FileClass("bb", 2, "qq"))
+//  print(insertionSort(b)(FileClass))
+  print(quickSort(a))
+
+  //println("a"<"b")
 }
 
