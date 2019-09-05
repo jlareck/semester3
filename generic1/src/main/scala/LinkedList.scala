@@ -1,10 +1,8 @@
 
 import scala.annotation.tailrec
-import scala.annotation.unchecked.uncheckedVariance
-import scala.collection.immutable.List
+
 import scala.math.Ordering
-import scala.runtime.Statics.releaseFence
-import scala.sys.process.processInternal
+
 
 
 sealed abstract class LinkedList[+E] {
@@ -110,32 +108,7 @@ case object Empty extends LinkedList[Nothing]{
   override def tail: LinkedList[Nothing] = throw new UnsupportedOperationException("tail of empty list")
 }
 
-//final case class :: [E]( private var hd: E, private var tl: LinkedList[E]) extends LinkedList[E] {
-//  releaseFence()
-//
-//  override def size = 1
-//
-//  override def head : E = hd
-//  override def tail : LinkedList[E] = tl
-//}
-
-
-
-//object :: {
-//  def unapply[E](ls: LinkedList[E]): Option[(E, E)] = {
-//    if (ls.size == 0) None
-//    else Some(ls.head1, ls.tail1)
-//  }
-//}
-//final case class ::[E<:Ordering[E]](private var hd: E, private var tl: LinkedList[E]) extends LinkedList[E] {
-//  def head : E = hd
-//  def tail : LinkedList[E] = tl
-//  def isEmpty: Boolean = false
-//  val size = 1
-//  releaseFence()
-//
-//}
-object LinkedList extends App{
+object LinkedList{
 
   def apply[E](items: E*): LinkedList[E] = {
     if (items.isEmpty) {
@@ -159,14 +132,6 @@ object LinkedList extends App{
     }
   }
 
-//  def split[A](n: Int, l: List[A]):(List[A], List[A]) = {
-//    def _split[A](c: Int, res: List[A], rem: List[A]):(List[A],List[A]) = (c, rem) match {
-//      case (_, Nil) => (res, Nil)
-//      case (0, rem) => (res, rem)
-//      case (c, h::tail) => _split(c - 1, res:::List(h), tail)
-//    }
-//    _split(n, List(), l)
-//  }
 def mergeSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
    def merge(xs1: LinkedList[E], xs2: LinkedList[E]): LinkedList[E] = {
      if (xs1.size == 0) xs2
@@ -199,51 +164,7 @@ def mergeSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = 
 
   }
 
-  //  def split[E](n: Int, l: LinkedList[E]):(LinkedList[E], LinkedList[E]) = {
-//    def _split[E](c: Int, res: LinkedList[E], rem: LinkedList[E]):(LinkedList[E],LinkedList[E]) = (c, rem) match {
-//      case (_, Empty) => (res, Empty)
-//      case (0, rem) => (res, rem)
-//      case (c, h :: tail) => _split(c - 1, res:::LinkedList(h), tail)
-//    }
-//    _split(n, LinkedList(), l)
-//  }
-//  def merge[E](left: LinkedList[E], right: LinkedList[E]) (implicit org: Ordering[E]): LinkedList[E] =
-//    (left, right) match {
-//      case(left, Empty) => left
-//      case(Empty, right) => right
-//      case(leftHead :: leftTail, rightHead :: rightTail) =>
-//        if (org.compare(leftHead, rightHead)<0) leftHead::merge(leftTail, right)
-//        else rightHead :: merge(left, rightTail)
-//    }
-////
-//  def mergeSort[E](list: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
-//    val n = list.size / 2
-//    if (n == 0) list // i.e. if list is empty or single value, no sorting needed
-//    else {
-//      val (left, right) = split(n, list)
-//      merge(mergeSort(left), mergeSort(right))
-//    }
-//  }
-//  var a = new FileClass("aa", 1, "ww")
-//  va b = LinkedList(a)
-//   val c = new FileClass("bb", 2, "qq")
-//  b = b.::c
-  var a = LinkedList(3,25,5,8,0,-1,8)
-  a = a.::(2)
-// //print(a.head1)
-//  //a.someTest
-//  var b = List(2,4,5)
-//  //print(a)
-// print(mergeSort(a))
 
-//  val a = new FileClass("aa", 2, "ww")
-//  val c = new FileClass("bb", 3, "qq")
-//  var b = LinkedList(a,c)
-//
-//  b = b.::(new FileClass("bb", 2, "qq"))
-//  print(insertionSort(b)(FileClass))
-  print(quickSort(a))
 
-  //println("a"<"b")
 }
 
