@@ -1,8 +1,8 @@
 import java.util.Date
-
+import  scala.math.Ordering
 case class FileClass(var name:String, var size: Int, var localType: String)
 object FileClass extends Ordering[FileClass]{
-   def compare(x: FileClass, y: FileClass): Int = {
+    def compare(x: FileClass, y: FileClass): Int = {
     if (x.size != y.size) if (x.size < y.size) return 1
     else return -1
 
@@ -14,4 +14,6 @@ object FileClass extends Ordering[FileClass]{
 
 
   }
+  implicit def ordering[A <: FileClass]: Ordering[A] = Ordering.by(e => (e.size, e.name, e.localType))
+
 }
