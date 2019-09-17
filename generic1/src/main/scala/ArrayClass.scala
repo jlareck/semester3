@@ -1,7 +1,8 @@
 
-
+//TODO change in sbt file version on 13.0
 import java.nio.file.Files
-
+import java.text.SimpleDateFormat
+import java.util.Date
 import scala.reflect._
 import scala.math.Ordering
 object ArrayClass extends App{
@@ -45,26 +46,31 @@ object ArrayClass extends App{
 
 
   //implicit val order = Ordering.by[FileClass, Int]
-    val a = new FileClass("aa", 2, "ww")
-    val c = new FileClass("bb", 3, "qq")
-  val d = new FileClass("bb", 1, "qq")
-  val q = new FileClass("bb", 2, "qe")
-    var b = Array(a,c,d, q)
+    val a = new FileClass("aa", 2, "ww", new SimpleDateFormat("d-M-y"))
+    val c = new FileClass("bb", 3, "qq", new SimpleDateFormat("d-M-y"))
+  val d = new FileClass("bb", 1, "qq", new SimpleDateFormat("d-M-y"))
+  val q = new FileClass("bb", 2, "qe", new SimpleDateFormat("d-M-y"))
+  val someVariable = new Folder("bb", 2, "qe")
+
+    var b = Array(a,c,d, q, someVariable)
+  var list = b.toList
+  list = mergeSort(list)
+  list.foreach(println)
    // implicit val org = Ordering[FileClass]
-  val clsTag = classTag[FileClass]
+ // val clsTag = classTag[FileClass]
  // b = quickSort(b)(clsTag, FileClass.ordering)
     //b.foreach(println)
   //  println("b">"a")
 
 
-    var l = b.toList
-  l.foreach(print)
+    //var l = b.toList
+ // l.foreach(print)
    // l = mergeSort(l)
-  l = insertionSort(l)
+ // l = insertionSort(l)
 
-  val r = l.toArray
+  //val r = l.toArray
 
-  r.foreach(println)
+  //r.foreach(println)
   //var a = Array(1,2,2,51,2,3,64,4)
 //  a = sort(a)(clsTag, FileClass.ordering)
 
