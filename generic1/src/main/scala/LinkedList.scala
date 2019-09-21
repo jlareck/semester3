@@ -132,37 +132,6 @@ object LinkedList{
     }
   }
 
-def mergeSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
-   def merge(xs1: LinkedList[E], xs2: LinkedList[E]): LinkedList[E] = {
-     if (xs1.size == 0) xs2
-     else if (xs2.size == 0) xs1
-     else if (org.compare(xs1.head, xs2.head)<0) xs1.head :: merge(xs1.tail, xs2)
-     else xs2.head :: merge(xs1, xs2.tail)
-   }
-
-  val n = xs.size/2
-  if (n == 0) xs
-  else merge(mergeSort(xs take n), mergeSort(xs drop n))
-}
-  def insertionSort[E](xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
-    if(xs.size == 0) LinkedList()
-    else  insert(xs.head, insertionSort(xs.tail))(org)
-  }
-
-  def insert[E](x: E, xs: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] =  {
-    if(xs.size==0)  LinkedList(x)
-  else{
-      if (org.compare(x, xs.head)<0 ) x :: xs else xs.head :: insert(x, xs.tail)
-    }
-  }
-
-  def quickSort[E](list: LinkedList[E])(implicit org: Ordering[E]): LinkedList[E] = {
-
-      if (list.size==0)  Empty
-      else if (list.size == 1)  LinkedList(list.head)
-      else  quickSort(list.tail.filter(x=> org.compare(x, list.head)<=0 )) ::: LinkedList(list.head) ::: quickSort(list.tail.filter(x => org.compare(x, list.head)>0))
-
-  }
 
 
 
