@@ -1,6 +1,8 @@
 import java.util.concurrent.LinkedBlockingDeque
 
 import org.scalatest.FunSuite
+
+import scala.reflect.ClassTag
 class FileSystemTest extends FunSuite {
 
 
@@ -19,34 +21,28 @@ class FileSystemTest extends FunSuite {
 
   test("ArrayClass.sort") {
     //var flag: Boolean = false
-    implicit def arrayToList[A](a: Array[A]) ={
-      //flag = true
-      a.toList
-    }
-    implicit def listToArray[A](a: List[A]) ={
-      //flag = true
-      a.toArray
-    }
+
+    implicit def arrayToList[A](a: Array[A]) = a.toList
+
+    implicit def listToArray[A: ClassTag](a: List[A]) = a.toArray
 
     val list1 = List(1, 221, 331, 35, 6, 21, 5)
     assert(ArrayClass.mergeSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
     assert(ArrayClass.insertionSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
     assert(ArrayClass.quickSort(list1.toArray) === Array(1, 5, 6, 21, 35, 221, 331))
-    val list2 = List("a", "s", "b", "r", "c","k") // можна було var
+    val list2 = Array("a", "s", "b", "r", "c","k") // можна було var
 
-
-
-    assert(SortedAlgorithms.mergeSort(list2)===List("a", "b","c", "k", "r", "s" ))
+    assert(SortedAlgorithms.quickSort(list2)===Array("a", "b","c", "k", "r", "s" ))
 //    if (flag){
 //      list2 = list2.toArray
 //    }
 //    assert(ArrayClass.mergeSort(list2)===List("a", "b","c", "k", "r", "s" ))
 //    assert(ArrayClass.quickSort(list2.toArray)===Array("a", "b","c", "k", "r", "s" ))
 
-    val objList1 = HelloWorld.recursiveInitializing(HelloWorld.input_files)
-
-    val objList2 = objList1
-    assert(ArrayClass.insertionSort(objList1)=== ArrayClass.quickSort(objList2.toArray).toList)
+//    val objList1 = HelloWorld.recursiveInitializing(HelloWorld.input_files)
+//
+//    val objList2 = objList1
+//    assert(ArrayClass.insertionSort(objList1)=== ArrayClass.quickSort(objList2.toArray).toList)
   }
   test("LinkedList"){
     val linkedList = LinkedList(1,5,6,21,35,221,331)
