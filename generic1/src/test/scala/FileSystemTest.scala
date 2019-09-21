@@ -27,9 +27,9 @@ class FileSystemTest extends FunSuite {
     implicit def listToArray[A: ClassTag](a: List[A]) = a.toArray
 
     val list1 = List(1, 221, 331, 35, 6, 21, 5)
-    assert(ArrayClass.mergeSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
-    assert(ArrayClass.insertionSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
-    assert(ArrayClass.quickSort(list1.toArray) === Array(1, 5, 6, 21, 35, 221, 331))
+    assert(SortedAlgorithms.mergeSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
+    assert(SortedAlgorithms.insertionSort(list1) === List(1, 5, 6, 21, 35, 221, 331))
+    assert(SortedAlgorithms.quickSort(list1.toArray) === Array(1, 5, 6, 21, 35, 221, 331))
     val list2 = Array("a", "s", "b", "r", "c","k") // можна було var
 
     assert(SortedAlgorithms.quickSort(list2)===Array("a", "b","c", "k", "r", "s" ))
@@ -46,9 +46,9 @@ class FileSystemTest extends FunSuite {
   }
   test("LinkedList"){
     val linkedList = LinkedList(1,5,6,21,35,221,331)
-    assert(LinkedList.mergeSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
-    assert(LinkedList.insertionSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
-    assert(LinkedList.quickSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
+    assert(SortedAlgorithms.mergeSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
+    assert(SortedAlgorithms.insertionSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
+    assert(SortedAlgorithms.quickSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
 
 
 
