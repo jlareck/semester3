@@ -1,19 +1,19 @@
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileStatus, FileSystem, Path}
-import java.text.DateFormat
+
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-import scala.annotation.tailrec
-//import scala.util.matching.Regex
+
 import scala.collection.mutable.Queue
 object FileManager extends App{
-  private val fs = FileSystem.get(new Configuration())
-  private val dir = new Path("/Users/mykolamedynsky/Desktop/personal documents") //TODO change directory for finding exe file/user
-  private val input_files = fs.listStatus(dir)
 
-  def init(): Folder ={
+
+  def init(path: String): Folder ={
+    val fs = FileSystem.get(new Configuration())
+    val dir = new Path(path)
+    val input_files = fs.listStatus(dir)
     val formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
     val currentDate = formatDate.format(Calendar.getInstance().getTime())
 
@@ -105,27 +105,6 @@ object FileManager extends App{
       }while(!queue.isEmpty)
       list
   }
-//  val test = init()
-//  val listFind = findByMask(test, "*Answe*")
-//  print(listFind)
- // var details = recursiveInitializing(input_files)
 
- // details = ArrayClass.insertionSort(details)
-//  details.foreach(println)
-//  details = ArrayClass.mergeSort(details)
-
-  //println("t" > "m")
-//  val files = details.toArray
-
-
-//  val details  = input_files.map(m =>
-//    if(m.isFile)
-//      new FileClass(m.getPath.getName, m.getLen.toInt, "File", m.getModificationTime.toString, m.getPath.toString)
-//    else if (m.isDirectory)
-//      new Folder(m.getPath.getName, m.getLen.toInt, "Folder", m.getPath.toString,fs.listStatus(new Path(m.getPath.toString))
-//
-//
-//      ).toList
- // details.foreach(println)
 }
 
