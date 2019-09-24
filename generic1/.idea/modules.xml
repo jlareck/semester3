@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/generic1.iml" filepath="$PROJECT_DIR$/.idea/modules/generic1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/generic1-build.iml" filepath="$PROJECT_DIR$/.idea/modules/generic1-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sparkcore_211/sparkcore_211.iml" filepath="$PROJECT_DIR$/sparkcore_211/sparkcore_211.iml" />
     </modules>
   </component>
 </project>
