@@ -10,15 +10,15 @@ import scala.annotation.tailrec
 import scala.collection.mutable.Queue
 object FileManager extends App{
   private val fs = FileSystem.get(new Configuration())
-  private val dir = new Path("/Users/mykolamedynsky/Desktop/personal documents") //TODO change directory for finding exe file/ user
-  val input_files = fs.listStatus(dir)
+  private val dir = new Path("/Users/mykolamedynsky/Desktop/personal documents") //TODO change directory for finding exe file/user
+  private val input_files = fs.listStatus(dir)
 
   def init(): Folder ={
     val formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
     val currentDate = formatDate.format(Calendar.getInstance().getTime())
-    var listOfFiles = List[MyFile]()
-    var listOfFolders = List[Folder]()
-    val folder: Folder = new Folder(dir.getName, "Folder", dir.toString, currentDate, listOfFolders, listOfFiles)
+
+
+    val folder: Folder = new Folder(dir.getName, "Folder", dir.toString, currentDate, List[Folder](),List[MyFile]() )
      def recursiveInitializingFolders(files: Array[FileStatus], folders: Folder): List[Folder] ={
       files.foreach(m =>
 
@@ -26,11 +26,9 @@ object FileManager extends App{
           val formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
           val date: Date = new Date(m.getModificationTime)
           val dateInFormat = formatDate.format(date)
-        //  var listOfFile = List[MyFile]()
-        val listOfFiles1 = List[MyFile]()
-          val listOfFolders1 = List[Folder]()
-        val folder1: Folder = new Folder(m.getPath.getName, "Folder", m.getPath.toString, dateInFormat, listOfFolders1, listOfFiles1)
-           val a: Folder = new Folder(m.getPath.getName, "Folder", m.getPath.toString, dateInFormat,
+
+          val folder1: Folder = new Folder(m.getPath.getName, "Folder", m.getPath.toString, dateInFormat, List[Folder](), List[MyFile]())
+          val a: Folder = new Folder(m.getPath.getName, "Folder", m.getPath.toString, dateInFormat,
             recursiveInitializingFolders(fs.listStatus(new Path(m.getPath.toString)), folder1),  recursiveInitializingFiles(fs.listStatus(new Path(m.getPath.toString)), folder1))
           folders.folders = a :: folders.folders
 
@@ -55,10 +53,10 @@ object FileManager extends App{
       folders.files
     }
 
-     val newFolder: Folder = new Folder(dir.getName, "Folder", dir.toString, currentDate, recursiveInitializingFolders(input_files, folder), recursiveInitializingFiles(input_files,folder))
-      newFolder
+    val newFolder: Folder = new Folder(dir.getName, "Folder", dir.toString, currentDate, recursiveInitializingFolders(input_files, folder), recursiveInitializingFiles(input_files,folder))
+    newFolder
   }
-  def isMaskEqualToString(str: String, mask: String): Boolean = {
+  private def isMaskEqualToString(str: String, mask: String): Boolean = {
     if (mask.size == 0) return str.isEmpty
     var i = 0
     var j = 0
@@ -94,7 +92,7 @@ object FileManager extends App{
     return false
   }
   def findByMask(files: Folder, mask: String): List[MyFile]={
-      var list = List[Item]()
+      var list = List[MyFile]()
       var queue: Queue[Folder] = Queue()
       var currentFolder = files
       do{
@@ -104,15 +102,12 @@ object FileManager extends App{
           currentFolder = queue.dequeue
 
 
-      }while(queue.isEmpty)
-
+      }while(!queue.isEmpty)
+      list
   }
-  def findByMask(files: LinkedList[Item], name: String): LinkedList[Item]={
-    files.filter(m => isMaskEqualToString(m.name, name))
-  }
-
-
-
+//  val test = init()
+//  val listFind = findByMask(test, "*Answe*")
+//  print(listFind)
  // var details = recursiveInitializing(input_files)
 
  // details = ArrayClass.insertionSort(details)
