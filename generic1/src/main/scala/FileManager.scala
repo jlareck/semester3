@@ -93,18 +93,23 @@ object FileManager extends App{
 
     return false
   }
-//  def findByMask(files: List[Item], mask: String): List[Item]={
-//      var list = List[Item]()
-//      var queue: Queue[Folder] = Queue()
-//      do{
-//        files.foreach(m => if(m.localType == "File" && isMaskEqualToString(m.name, mask)) list = m :: list  else if (m.localType == "Folder") queue += m )
-//        files
-//      }while(queue.isEmpty)
-//
-//  }
-//  def findByMask(files: LinkedList[Item], name: String): LinkedList[Item]={
-//    files.filter(m => isMaskEqualToString(m.name, name))
-//  }
+  def findByMask(files: Folder, mask: String): List[MyFile]={
+      var list = List[Item]()
+      var queue: Queue[Folder] = Queue()
+      var currentFolder = files
+      do{
+
+          currentFolder.files.foreach(m=> if (isMaskEqualToString(m.name, mask)) list = m::list)
+          currentFolder.folders.foreach(m => queue += m)
+          currentFolder = queue.dequeue
+
+
+      }while(queue.isEmpty)
+
+  }
+  def findByMask(files: LinkedList[Item], name: String): LinkedList[Item]={
+    files.filter(m => isMaskEqualToString(m.name, name))
+  }
 
 
 
