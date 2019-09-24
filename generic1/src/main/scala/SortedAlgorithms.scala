@@ -14,7 +14,7 @@ object SortedAlgorithms {
         quickSort(xs.filter(org.compare(pivot,_)<0)))
     }
   }
- // implicit def arrayToList[A](a: Array[A]) = a.toList
+
 
   def mergeSort[E](xs: List[E])(implicit org: Ordering[E]): List[E] = {
     def merge(xs1: List[E], xs2: List[E]): List[E] = (xs1, xs2) match {
