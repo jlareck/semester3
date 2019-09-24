@@ -7,7 +7,7 @@ import java.util.Date
 
 
 import scala.collection.mutable.Queue
-object FileManager extends App{
+object FileManager{
 
 
   def init(path: String): Folder ={
