@@ -13,7 +13,9 @@ class FileSystemTest extends FunSuite {
     it will convert array to list and sort it as list. Also if you want to sort list with quicksort
     it will implicitly convert it to array. And I also used
     overloaded sorting functions because there is linked list - the structure that is not library and
-    I can't use toList or toArray for it. You will also ask where is logic in parameter of type array in quicksort
+    I can't use toList or toArray for it.
+
+    You will also ask where is logic in parameter of data structure array in quicksort
     and list in others, the answer is - I don't know ¯\_(ツ)_/¯.
   */
 
@@ -22,10 +24,10 @@ class FileSystemTest extends FunSuite {
 
     implicit def arrayToList[A](a: Array[A]) = a.toList
 
-    implicit def listToArray[A: ClassTag](a: List[A]) = a.toArray
+    implicit def listToArray[A: ClassTag](l: List[A]) = l.toArray
 
     val array = Array(1, 221, 331, 35, 6, 21, 5)
-    assert(SortedAlgorithms.mergeSort(array) === List(1, 5, 6, 21, 35, 221, 331))
+    assert(SortedAlgorithms.mergeSort(array) === Array(1, 5, 6, 21, 35, 221, 331))//implicit conversion firstly from array to list and then if expected data structure is not list - from list to array
     assert(SortedAlgorithms.insertionSort(array) === List(1, 5, 6, 21, 35, 221, 331))
     assert(SortedAlgorithms.quickSort(array) === Array(1, 5, 6, 21, 35, 221, 331))
 
@@ -34,30 +36,22 @@ class FileSystemTest extends FunSuite {
     assert(SortedAlgorithms.mergeSort(list)===List("a", "b","c", "k", "r", "s" ))
     assert(SortedAlgorithms.insertionSort(list)===List("a", "b","c", "k", "r", "s" ))
 
-
-    val objList1 = FileManager.recursiveInitializing(FileManager.input_files)
-    val objList2 = objList1
-    assert(SortedAlgorithms.mergeSort(objList1) === SortedAlgorithms.insertionSort(objList2))
-    assert(SortedAlgorithms.quickSort(objList1) === SortedAlgorithms.insertionSort(objList2))
-
-
-    //    if (flag){
-//      list2 = list2.toArray
-//    }
-//    assert(ArrayClass.mergeSort(list2)===List("a", "b","c", "k", "r", "s" ))
-//    assert(ArrayClass.quickSort(list2.toArray)===Array("a", "b","c", "k", "r", "s" ))
-
-//    val objList1 = HelloWorld.recursiveInitializing(HelloWorld.input_files)
-//
-//    val objList2 = objList1
-//    assert(ArrayClass.insertionSort(objList1)=== ArrayClass.quickSort(objList2.toArray).toList)
+    val obj1 = FileManager.init("/Users/mykolamedynsky/Desktop/personal documents") // there you need to write a path to the directory where you want get data
+    val obj2 = obj1
+    assert(SortedAlgorithms.insertionSort(obj1.files) === SortedAlgorithms.quickSort(obj2.files))
+    //if you also use function findByMask in debuger you will see that it works, but I don't know how to check it
+    //on unit tests
+    //val a = FileManager.findByMask(obj1, "sal*")
   }
   test("LinkedList"){
     val linkedList = LinkedList(1,5,6,21,35,221,331)
     assert(SortedAlgorithms.mergeSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
     assert(SortedAlgorithms.insertionSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
     assert(SortedAlgorithms.quickSort(linkedList) === LinkedList(1,5,6,21,35,221,331))
-
+    val linkedList2 = LinkedList("a", "s", "b", "r", "c","k")
+    assert(SortedAlgorithms.quickSort(linkedList2)===LinkedList("a", "b","c", "k", "r", "s" ))
+    assert(SortedAlgorithms.mergeSort(linkedList2)===LinkedList("a", "b","c", "k", "r", "s" ))
+    assert(SortedAlgorithms.insertionSort(linkedList2)===LinkedList("a", "b","c", "k", "r", "s" ))
 
 
   }
