@@ -1,10 +1,10 @@
 
 import scala.annotation.tailrec
 
-import scala.math.Ordering
 
-
-
+/*
+there are some unnecessary functions but I think that they should be there because when I will want to use this data structure I will use them
+*/
 sealed abstract class LinkedList[+E] {
 
   def size : Int
