@@ -41,7 +41,8 @@ class FileSystemTest extends FunSuite {
     assert(SortedAlgorithms.insertionSort(obj1.files) === SortedAlgorithms.quickSort(obj2.files))
     //if you also use function findByMask in debuger you will see that it works, but I don't know how to check it
     //on unit tests
-    //val a = FileManager.findByMask(obj1, "sal*")
+//    val a = FileManager.findByMaskFunctionalStyle(obj1, "*Ans*")
+ //   print(a)
   }
   test("LinkedList"){
     val linkedList = LinkedList(1,5,6,21,35,221,331)
