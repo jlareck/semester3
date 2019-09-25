@@ -105,6 +105,20 @@ object FileManager{
       }while(!queue.isEmpty)
       list
   }
+  def findByMaskFunctionalStyle(files: Folder, mask: String): List[MyFile]={
+    var list = List[MyFile]()
+    val queue: Queue[Folder] = Queue()
+    val currentFolder = files
+    def find(queue: Queue[Folder], current: Folder): List[MyFile]={
+      current.files.foreach(m=> if (isMaskEqualToString(m.name, mask)) list = m::list)
+      current.folders.foreach(m => queue += m)
+      queue match{
+       case x :+ xs => find(x, xs)
+       case _ => list
+      }
+    }
+    find(queue,currentFolder)
+  }
 
 }
 
