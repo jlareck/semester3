@@ -1,11 +1,10 @@
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileStatus, FileSystem, Path}
-
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-
+import scala.annotation.tailrec
 import scala.collection.mutable.Queue
 object FileManager{
 
@@ -19,7 +18,7 @@ object FileManager{
 
 
     val folder: Folder = new Folder(dir.getName, "Folder", dir.toString, currentDate, List[Folder](),List[MyFile]() )
-     def recursiveInitializingFolders(files: Array[FileStatus], folders: Folder): List[Folder] ={
+      def recursiveInitializingFolders(files: Array[FileStatus], folders: Folder): List[Folder] ={
       files.foreach(m =>
 
         if (m.isDirectory){
@@ -109,9 +108,11 @@ object FileManager{
     var list = List[MyFile]()
     val queue: Queue[Folder] = Queue()
     val currentFolder = files
-    def find(queue: Queue[Folder], current: Folder): List[MyFile]={
-      current.files.foreach(m=> if (isMaskEqualToString(m.name, mask)) list = m::list)
+    @tailrec def find(queue: Queue[Folder], current: Folder): List[MyFile]={
+      current.files.foreach(m => if (isMaskEqualToString(m.name, mask)) list = m::list)
+
       current.folders.foreach(m => queue += m)
+
       queue match{
        case x :+ xs => find(x, xs)
        case _ => list

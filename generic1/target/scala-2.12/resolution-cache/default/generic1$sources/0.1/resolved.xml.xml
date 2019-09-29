@@ -4,7 +4,7 @@
 		module="generic1$sources"
 		revision="0.1"
 		status="integration"
-		publication="20190924160850"
+		publication="20190928185529"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

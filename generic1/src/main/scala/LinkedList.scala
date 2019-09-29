@@ -98,6 +98,7 @@ sealed abstract class LinkedList[+E] {
   }
 
 }
+
 case class Node[E](head: E, tail: LinkedList[E]) extends LinkedList[E]{
   val size = 1 + tail.size
 }
@@ -131,8 +132,6 @@ object LinkedList{
       case Empty => ""
     }
   }
-
-
 
 
 }
