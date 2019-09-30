@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 /*
 there are some unnecessary functions but I think that they should be there because when I will want to use this data structure I will use them
 */
-sealed abstract class LinkedList[+E] {
+sealed trait LinkedList[+E] {
 
   def size : Int
   def head: E
