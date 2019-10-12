@@ -1,2 +1,1 @@
-# semester3
-OOP labs at the third semester
+## OOP labs at the third semester
